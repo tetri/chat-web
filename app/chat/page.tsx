@@ -32,6 +32,8 @@ type Message = {
     replyToId?: string;
 };
 
+import { ThemeToggle } from "@/components/theme-toggle";
+
 export default function ChatPage() {
     const [messages, setMessages] = useState<Message[]>([]);
     const [text, setText] = useState("");
@@ -136,7 +138,8 @@ export default function ChatPage() {
     return (
         <div className="mx-auto m-10 space-y-4 max-w-3xl">
             {/* Usuário logado */}
-            <div className="text-center mb-2 p-2 bg-gray-100 rounded-lg text-sm font-medium flex justify-between items-center gap-2">
+            <div className="text-center mb-2 p-2 bg-card text-card-foreground rounded-lg text-sm font-medium flex justify-between items-center gap-2">
+                <ThemeToggle />
                 <span>
                     <span className="font-bold">
                         {user.displayName || user.email}
@@ -144,7 +147,7 @@ export default function ChatPage() {
                 </span>
                 <button
                     onClick={logout}
-                    className="text-red-500 underline text-xs"
+                    className="text-destructive underline text-xs"
                 >
                     Sair
                 </button>
@@ -155,7 +158,7 @@ export default function ChatPage() {
                 {Object.keys(groupedMessages).map((date) => (
                     <div key={date}>
                         {/* Separador de dia */}
-                        <div className="text-center text-xs text-gray-400 my-2">
+                        <div className="text-center text-xs text-muted-foreground my-2">
                             {date}
                         </div>
 
@@ -183,25 +186,26 @@ export default function ChatPage() {
                                     </Avatar>
                                     <div
                                         className={`flex flex-col p-2 rounded-xl text-sm break-words ${isOwn
-                                            ? "bg-green-500 text-white rounded-br-none"
-                                            : "bg-gray-200 text-gray-800 rounded-bl-none"
+                                            ? "bg-primary text-primary-foreground rounded-br-none"
+                                            : "bg-secondary text-secondary-foreground rounded-bl-none"
                                             }`}
                                         onClick={() => setReplyTo(m)}
                                         title="Clique para responder"
                                     >
-                                        {!isOwn && <div className="font-bold text-xs text-green-500">{userName}</div>}
+                                        {!isOwn && <div className="font-bold text-xs text-primary">{userName}</div>}
                                         {parent && (
-                                            <div className={`border-l-5  px-2 py-1 mb-1 rounded-l-lg rounded-r-lg text-xs ${isOwn
-                                                ? "bg-green-600 border-l-green-700 text-white rounded-br-none"
-                                                : "bg-gray-300 border-l-gray-400 text-gray-800 rounded-bl-none"
+                                            <div className={`border-l-4 px-2 py-1 mb-1 rounded-l-lg rounded-r-lg text-xs ${isOwn
+                                                ? "bg-primary/90 border-primary text-primary-foreground rounded-br-none"
+                                                : "bg-secondary/90 border-secondary text-secondary-foreground rounded-bl-none"
                                                 }`}>
                                                 <div className="font-bold">{parent.user.displayName || parent.user || "Guest"}</div>
                                                 <div>{parent.content}</div>
                                             </div>
-                                        )}                                            {m.content}
+                                        )}
+                                        {m.content}
                                         <div className={`pl-2 text-xs mt-0.5 self-end ${isOwn
-                                            ? "text-green-300"
-                                            : "text-gray-500"
+                                            ? "text-primary-foreground/70"
+                                            : "text-muted-foreground"
                                             }`}>{time}</div>
                                     </div>
                                 </div>
@@ -215,11 +219,11 @@ export default function ChatPage() {
             {/* Input */}
             <div className="flex flex-col gap-1">
                 {replyTo && (
-                    <div className="bg-gray-100 p-2 rounded-lg text-sm flex justify-between items-center">
+                    <div className="bg-accent p-2 rounded-lg text-sm flex justify-between items-center">
                         Respondendo a <b>{replyTo.user.displayName}</b>: {replyTo.content}
                         <button
                             onClick={() => setReplyTo(null)}
-                            className="text-red-500 ml-2"
+                            className="text-destructive ml-2"
                         >
                             Cancelar
                         </button>
@@ -234,7 +238,7 @@ export default function ChatPage() {
                         onKeyDown={(e) => e.key === "Enter" && sendMessage()}
                     />
                     <Button onClick={sendMessage}
-                        className="rounded-full bg-green-700">
+                        className="rounded-full bg-primary">
                         <SendIcon className="h-5 w-5" /> Enviar
                     </Button>
                 </div>

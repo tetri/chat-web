@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Chat App",
   description: "A simple chat application using Next.js and Firebase",
+  icons: {
+    icon: "/message-circle-heart.svg",
+  },
 };
 
 export default function RootLayout({

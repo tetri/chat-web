@@ -42,7 +42,7 @@ export default function HomePage() {
       <h1 className="text-2xl font-bold">Bem-vindo ao Chat!</h1>
       <button
         onClick={handleLogin}
-        className="px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700"
+        className="px-4 py-2 rounded bg-primary text-primary-foreground hover:bg-primary/90"
       >
         Entrar com Google
       </button>
