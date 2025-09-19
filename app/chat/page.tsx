@@ -14,9 +14,14 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { SendIcon } from "lucide-react";
+import { DoorClosedIcon, DoorOpenIcon, SendIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 type UserProfile = {
     uid: string;
@@ -139,18 +144,28 @@ export default function ChatPage() {
         <div className="mx-auto m-10 space-y-4 max-w-3xl">
             {/* Usuário logado */}
             <div className="text-center mb-2 p-2 bg-card text-card-foreground rounded-lg text-sm font-medium flex justify-between items-center gap-2">
-                <ThemeToggle />
-                <span>
-                    <span className="font-bold">
-                        {user.displayName || user.email}
-                    </span>
+                <span className="flex-1 text-left">
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <Avatar className="size-10">
+                                <AvatarImage src={user.photoURL} />
+                                <AvatarFallback>{(user.displayName || user.email)[0].toUpperCase()}</AvatarFallback>
+                            </Avatar>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                            {user.displayName || user.email}
+                        </TooltipContent>
+                    </Tooltip>
                 </span>
-                <button
-                    onClick={logout}
-                    className="text-destructive underline text-xs"
-                >
-                    Sair
-                </button>
+                <ThemeToggle />
+                <Tooltip>
+                    <TooltipTrigger>
+                        <Button variant="outline" size="icon">
+                            <DoorOpenIcon onClick={logout} className="inline size-4 mr-1" />
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Sair</TooltipContent>
+                </Tooltip>
             </div>
 
             {/* Lista de mensagens */}
@@ -180,10 +195,10 @@ export default function ChatPage() {
                                     className={`mb-1 flex items-end gap-2 ${isOwn ? "self-end flex-row-reverse" : "self-start"
                                         }`}
                                 >
-                                    <Avatar className="size-10">
+                                    {!isOwn && <Avatar className="size-10">
                                         <AvatarImage src={avatarImage} />
                                         <AvatarFallback>{avatarFallback}</AvatarFallback>
-                                    </Avatar>
+                                    </Avatar>}
                                     <div
                                         className={`flex flex-col p-2 rounded-xl text-sm break-words ${isOwn
                                             ? "bg-primary text-primary-foreground rounded-br-none"
